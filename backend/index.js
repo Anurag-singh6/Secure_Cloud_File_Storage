@@ -18,13 +18,23 @@ app.use((req, res, next) => {
   console.log("[REQ]", req.method, req.originalUrl, "Origin:", req.headers.origin);
   next();
 });
+// Build whitelist from env (comma-separated) and include local dev origins
+const rawWhitelist = process.env.CORS_WHITELIST || process.env.FRONTEND_URL || process.env.REACT_APP_API_URL || "";
+const whitelist = rawWhitelist
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean)
+  .concat(["http://localhost:5173", "http://localhost:5174"]);
+
 app.use(
   cors({
-    origin: [
-      process.env.FRONTEND_URL || process.env.REACT_APP_API_URL,
-      "http://localhost:5173",
-      "http://localhost:5174",
-    ],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (whitelist.indexOf(origin) !== -1) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );
