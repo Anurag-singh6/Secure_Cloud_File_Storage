@@ -15,7 +15,11 @@ import connectdb from "./src/config/db.js";
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: [
+      process.env.REACT_APP_API_URL,
+      "http://localhost:5173",
+      "http://localhost:5174",
+    ],
     credentials: true,
   })
 );
@@ -48,10 +52,10 @@ app.listen(port, async () => {
   console.log("server started at port ", port);
   connectdb();
   // cloub blob
-  try{
+  try {
     const res = await cloudinary.api.ping();
-    console.log("Cloudinary api is working ",res);
-  }catch(error){
-    console.error("Error in connecting cloudinary api ",error);
+    console.log("Cloudinary api is working ", res);
+  } catch (error) {
+    console.error("Error in connecting cloudinary api ", error);
   }
 });
