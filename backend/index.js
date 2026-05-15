@@ -9,14 +9,14 @@ import PublicRouter from "./src/routers/publicRouter.js";
 import FileRouter from "./src/routers/fileRouter.js";
 import MfaRouter from "./src/routers/mfaRouter.js";
 import connectdb from "./src/config/db.js";
-// import dotenv from "dotenv";
-// dotenv.config();
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 app.use(
   cors({
     origin: [
-      process.env.REACT_APP_API_URL,
+      process.env.FRONTEND_URL || process.env.REACT_APP_API_URL,
       "http://localhost:5173",
       "http://localhost:5174",
     ],
