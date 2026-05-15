@@ -9,32 +9,13 @@ import PublicRouter from "./src/routers/publicRouter.js";
 import FileRouter from "./src/routers/fileRouter.js";
 import MfaRouter from "./src/routers/mfaRouter.js";
 import connectdb from "./src/config/db.js";
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 
 const app = express();
-// log incoming requests and their Origin header to help debug CORS issues
-app.use((req, res, next) => {
-  console.log("[REQ]", req.method, req.originalUrl, "Origin:", req.headers.origin);
-  next();
-});
-// Build whitelist from env (comma-separated) and include local dev origins
-const rawWhitelist = process.env.CORS_WHITELIST || process.env.FRONTEND_URL || process.env.REACT_APP_API_URL || "";
-const whitelist = rawWhitelist
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean)
-  .concat(["http://localhost:5173", "http://localhost:5174"]);
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (whitelist.indexOf(origin) !== -1) {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
-    },
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
   })
 );
@@ -67,10 +48,10 @@ app.listen(port, async () => {
   console.log("server started at port ", port);
   connectdb();
   // cloub blob
-  try {
+  try{
     const res = await cloudinary.api.ping();
-    console.log("Cloudinary api is working ", res);
-  } catch (error) {
-    console.error("Error in connecting cloudinary api ", error);
+    console.log("Cloudinary api is working ",res);
+  }catch(error){
+    console.error("Error in connecting cloudinary api ",error);
   }
 });

@@ -238,6 +238,19 @@ const FacultyMyFiles = () => {
     }
   };
 
+  const handleDelete = async (fileId) => {
+    try {
+      await api.delete(`/files/${fileId}`);
+      setUploadedFiles((prev) => prev.filter((file) => file._id !== fileId));
+      toast.success("File deleted successfully");
+      fetchStorageInfo();
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || "Failed to delete file";
+      toast.error(errorMsg);
+      console.error("Delete error:", err);
+    }
+  };
+
   const renderFilePreview = (file) => {
     const fileType = file.fileType || file.type || "";
     if (fileType.includes("image")) {
