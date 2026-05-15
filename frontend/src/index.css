@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #cf0f47;
+  --primary-hover: #a50c39;
+
+  --secondary: #ff0b55;
+  --secondary-hover: #cc0944;
+
+  --accent: #ffdede;
+
+  --background: #000000;
+
+  --text-primary: #ffffff;
+  --text-secondary: #ffdede;
+  --text-dark: #000000;
+}
+::-webkit-scrollbar{
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track{
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb{
+  background: var(--secondary);
+  border-radius: 5px;
+}
+
+
+
