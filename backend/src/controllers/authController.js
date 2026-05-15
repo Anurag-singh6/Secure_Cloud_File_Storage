@@ -100,7 +100,7 @@ export const login = async (req, res, next) => {
 
 export const UserLogout = async (req, res, next) => {
   try {
-    res.clearCookie("secureZilla_User");
+    res.clearCookie("userCookie");
     res.status(200).json({ message: "Logout Successfull...!" });
   } catch (error) {
     console.log(error);

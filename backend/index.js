@@ -13,9 +13,17 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+app.set("trust proxy", 1);
+
+const allowedOrigins = [
+  process.env.VITE_FRONTEND_URL || process.env.REACT_APP_API_URL,
+  "http://localhost:5173",
+  "http://localhost:5174",
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: [process.env.REACT_APP_API_URL || "http://localhost:5173" || "http://localhost:5174"],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
